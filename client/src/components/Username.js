@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../assets/profile.png';
 import { Toaster } from 'react-hot-toast';
@@ -22,6 +22,7 @@ export default function Username() {
     validateOnChange: false,
     onSubmit : async values => {
       setUsername(values.username);
+      localStorage.setItem("userName", values.username);
       navigate('/password')
     }
   })
@@ -32,17 +33,17 @@ export default function Username() {
       <Toaster position='top-center' reverseOrder={false}></Toaster>
 
       <div className='flex justify-center items-center h-screen'>
-        <div className={styles.glass}>
+        <div className={styles.glass} style={{paddingTop: '2em'}}>
 
           <div className="title flex flex-col items-center">
-            <h4 className='text-3xl font-bold' style={{color:"cornflowerblue"}}>UCLAN Inquire</h4>
+            <h4 className='text-3xl font-bold' style={{color:"cornflowerblue"}}>University Inquire</h4>
             <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
               Explore More by connecting with us.
             </span>
           </div>
 
           <form className='py-1' onSubmit={formik.handleSubmit}>
-              <div className='profile flex justify-center py-4'>
+              <div className='profile flex justify-center py-3'>
                   <img src={avatar} className={styles.profile_img} alt="avatar" />
               </div>
 

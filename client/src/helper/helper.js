@@ -94,10 +94,37 @@ export async function generateOTP(username){
     }
 }
 
+/** generate OTP */
+export async function generateSignupOTP(userDetails){
+    try {
+        const {data : { code }, status } = await axios.get('/api/generateSignupOTP');
+        
+        // send mail with the OTP
+        if(status === 201){
+            //let { data : { email }} = await getUser({ username });
+            let {username, email} = userDetails;
+            let text = `Your OTP is ${code}. Verify Email.`;
+            await axios.post('/api/registerMail', { username, userEmail: email, text, subject : "verify email OTP"})
+        }
+        return Promise.resolve(code);
+    } catch (error) {
+        return Promise.reject({ error });
+    }
+}
 /** verify OTP */
 export async function verifyOTP({ username, code }){
     try {
        const { data, status } = await axios.get('/api/verifyOTP', { params : { username, code }})
+       return { data, status }
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+/** verify signup OTP */
+export async function verifysignupOTP({ username, code }){
+    try {
+       const { data, status } = await axios.get('/api/verifysignupOTP', { params : { username, code }})
        return { data, status }
     } catch (error) {
         return Promise.reject(error);

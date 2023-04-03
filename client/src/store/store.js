@@ -5,5 +5,13 @@ export const useAuthStore = create((set) => ({
         username : '',
         active : false
     },
-    setUsername : (name) => set((state) => ({ auth : { ...state.auth, username : name }})) 
+    setUsername : (name) => set((state) => ({ auth : { ...state.auth, username : name }})),
+    setCategory:(name) => set((state) => ({ auth : { ...state.category, category : name }}))
+}))
+
+export const useCategoryStore = create((set) => ({
+    value : {
+        category : 'None'
+    },
+    setCategory:(name) => set((state) => ({ value : { ...state.category, category : name }}))
 }))

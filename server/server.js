@@ -3,15 +3,16 @@ import cors from 'cors';
 import morgan from 'morgan';
 import connect from './database/conn.js';
 import router from './router/route.js';
-
+//import bodyParser from 'bodyParser';
 const app = express();
 
-/** middlewares */
+/** middleware */
 app.use(express.json());
 app.use(cors());
 app.use(morgan('tiny'));
-app.disable('x-powered-by'); // less hackers know about our stack
-
+app.disable('x-powered-by');
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 
 const port = 8080;
 

@@ -8,6 +8,7 @@ import useFetch from '../hooks/fetch.hook';
 import { useAuthStore } from '../store/store'
 import { verifyPassword } from '../helper/helper'
 import styles from '../styles/Username.module.css';
+import { ColorRing  } from  'react-loader-spinner';
 
 export default function Password() {
 
@@ -34,12 +35,20 @@ export default function Password() {
       loginPromise.then(res => {
         let { token } = res.data;
         localStorage.setItem('token', token);
-        navigate('/profile')
+        navigate('/dashboard')
       })
     }
   })
 
-  if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
+  if(isLoading) return <div><ColorRing
+  visible={true}
+  height="80"
+  width="80"
+  ariaLabel="blocks-loading"
+  wrapperStyle={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+  wrapperClass="blocks-wrapper"
+  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+/></div>;
   if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
 
   return (
@@ -51,14 +60,14 @@ export default function Password() {
         <div className={styles.glass}>
 
           <div className="title flex flex-col items-center">
-            <h4 className='text-5xl font-bold'>Hello {apiData?.firstName || apiData?.username}</h4>
+            <h4 className='text-4xl font-bold'>Hello {apiData?.username}</h4>
             <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
               Explore More by connecting with us.
             </span>
           </div>
 
           <form className='py-1' onSubmit={formik.handleSubmit}>
-              <div className='profile flex justify-center py-4'>
+              <div className='profile flex justify-center py-3'>
                   <img src={apiData?.profile || avatar} className={styles.profile_img} alt="avatar" />
               </div>
 
@@ -68,7 +77,7 @@ export default function Password() {
               </div>
 
               <div className="text-center py-4">
-                <span className='text-gray-500'>Forgot Password? <Link className='text-red-500' to="/recovery">Recover Now</Link></span>
+                <span className='text-gray-500'>Forgot Password? <Link className='text-red-500' to="/Recovery">Recover Now</Link></span>
               </div>
 
           </form>

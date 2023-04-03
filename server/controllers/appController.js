@@ -1,4 +1,6 @@
 import UserModel from '../model/User.model.js'
+import QuestionModel from '../model/Question.model.js'
+import AnswerModel from '../model/Answer.model.js'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ENV from '../config.js'
@@ -20,19 +22,6 @@ export async function verifyUser(req, res, next){
     }
 }
 
-
-/** POST: http://localhost:8080/api/register 
- * @param : {
-  "username" : "example123",
-  "password" : "admin123",
-  "email": "example@gmail.com",
-  "firstName" : "bill",
-  "lastName": "william",
-  "mobile": 8009860560,
-  "address" : "Apt. 556, Kulas Light, Gwenborough",
-  "profile": ""
-}
-*/
 export async function register(req,res){
 
     try {
@@ -141,6 +130,101 @@ export async function login(req,res){
     }
 }
 
+export async function getAllQuestions(req,res){
+   
+    try {
+        await QuestionModel
+          .aggregate([
+            {
+              $lookup: {
+                from: "answers", //collection to join
+                localField: "_id", //field from input document
+                foreignField: "questionId",
+                as: "allAnswers", //output array field
+              },
+            },
+          ])
+          .exec()
+          .then((doc) => {
+            res.status(200).send(doc);
+          })
+          .catch((error) => {
+            res.status(500).send({
+              status: false,
+              message: "Unable to get the question details",
+            });
+          });
+      } catch (e) {
+        res.status(500).send({
+          status: false,
+          message: "Unexpected error",
+          user: req.body.user
+        });
+      }
+}
+
+export async function question(req,res){
+
+    try {
+        await QuestionModel
+          .create({
+            questionName: req.body.questionName,
+            questionUrl: req.body.questionUrl,
+            user: req.body.user,
+            category: req.body.category,
+            createdAt: req.body.createdDate
+          })
+          .then(() => {
+            res.status(201).send({
+              status: true,
+              message: "Question added successfully",
+              user: req.body.user
+            });
+          })
+          .catch((err) => {
+            res.status(400).send({
+              staus: false,
+              message: "Bad format",
+            });
+          });
+      } catch (e) {
+        res.status(500).send({
+          status: false,
+          message: "Error while adding question",
+        });
+      }
+}
+
+export async function answer(req,res){
+   
+    try {
+        await AnswerModel
+          .create({
+            answer: req.body.answer,
+            questionId: req.body.questionId,
+            user: req.body.user,
+            createdAt: req.body.createdDate
+          })
+          .then(() => {
+            res.status(201).send({
+              status: true,
+              message: "Answer added successfully",
+            });
+          })
+          .catch((e) => {
+            res.status(400).send({
+              status: false,
+              message: "Bad request",
+            });
+          });
+      } catch (e) {
+        res.status(500).send({
+          status: false,
+          message: "Error while adding answer",
+        });
+      }
+}
+
 
 /** GET: http://localhost:8080/api/user/example123 */
 export async function getUser(req,res){
@@ -203,7 +287,6 @@ export async function updateUser(req,res){
         return res.status(401).send({ error });
     }
 }
-
 
 /** GET: http://localhost:8080/api/generateOTP */
 export async function generateOTP(req,res){

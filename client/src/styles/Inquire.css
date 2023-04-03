@@ -1,0 +1,30 @@
+.inquire {
+  width: "100%";
+  min-width: fit-content;
+}
+
+.inquire__contents {
+  display: flex;
+  justify-content: center;
+  min-width: fit-content;
+  width: 100%;
+}
+
+.inquire__content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.react-responsive-modal-modal {
+  width: 90vw;
+  height: 90vh;
+}
+
+.quill {
+  height: 50vh;
+}
+
+.react-responsive-modal-overlay {
+  background: rgb(0 0 0 / 75%);
+}

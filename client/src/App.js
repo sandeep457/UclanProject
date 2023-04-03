@@ -6,14 +6,15 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Username from './components/Username';
 import Password from './components/Password';
 import Register from './components/Register';
-import Profile from './components/Profile';
 import Recovery from './components/Recovery';
 import Reset from './components/Reset';
+import Profile from './components/Profile';
 import PageNotFound from './components/PageNotFound';
 
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
+import Dashboard from './components/Dashboard';
 
 /** root routes */
 const router = createBrowserRouter([
@@ -30,12 +31,16 @@ const router = createBrowserRouter([
         element : <ProtectRoute><Password /></ProtectRoute>
     },
     {
-        path : '/profile',
-        element : <AuthorizeUser><Profile /></AuthorizeUser>
+        path : '/dashboard',
+        element : <AuthorizeUser><Dashboard /></AuthorizeUser>
     },
     {
         path : '/recovery',
         element : <Recovery></Recovery>
+    },
+    {
+        path : '/profile',
+        element : <Profile></Profile>
     },
     {
         path : '/reset',

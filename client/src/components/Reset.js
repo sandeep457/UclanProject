@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { resetPasswordValidation } from '../helper/validate'
@@ -6,14 +6,14 @@ import { resetPassword } from '../helper/helper'
 import { useAuthStore } from '../store/store';
 import { useNavigate, Navigate } from 'react-router-dom';
 import useFetch from '../hooks/fetch.hook'
-
+import { ColorRing  } from  'react-loader-spinner';
 import styles from '../styles/Username.module.css';
 
 export default function Reset() {
 
   const { username } = useAuthStore(state => state.auth);
   const navigate = useNavigate();
-  const [{ isLoading, apiData, status, serverError }] = useFetch('createResetSession')
+  const [{ isLoading, status, serverError }] = useFetch('createResetSession')
 
   const formik = useFormik({
     initialValues : {
@@ -24,9 +24,7 @@ export default function Reset() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit : async values => {
-      
       let resetPromise = resetPassword({ username, password: values.password })
-
       toast.promise(resetPromise, {
         loading: 'Updating...',
         success: <b>Reset Successfully...!</b>,
@@ -39,7 +37,15 @@ export default function Reset() {
   })
 
 
-  if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
+  if(isLoading) return <div><ColorRing
+  visible={true}
+  height="80"
+  width="80"
+  ariaLabel="blocks-loading"
+  wrapperStyle={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+  wrapperClass="blocks-wrapper"
+  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+/></div>;
   if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
   if(status && status !== 201) return <Navigate to={'/password'} replace={true}></Navigate>
 

@@ -1,0 +1,22 @@
+.widget {
+  flex: 0.40;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  margin-top: 20px;
+  height: fit-content;
+  min-height: 260px;
+}
+.widget img{
+  height: 120px;
+}
+
+.widget > div{
+  background: #24394B;
+  color: #fff;
+ margin-bottom: 15px;
+}
+.widget  p{
+  color: #fff;
+}

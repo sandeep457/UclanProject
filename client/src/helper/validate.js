@@ -100,7 +100,8 @@ function emailVerify(error ={}, values){
         error.email = toast.error("Email Required...!");
     }else if(values.email.includes(" ")){
         error.email = toast.error("Wrong Email...!")
-    }else if(!/^[a-z0-9\.-_]+[@][a-z0-9-_]+(?:\.ac\.uk)$/i.test(values.email)){
+    }
+    else if(!/^[a-z0-9\.-_]+[@][a-z0-9-_]+(?:\.ac\.uk)$/i.test(values.email)){
         error.email = toast.error("Invalid email address...!")
     }
 
