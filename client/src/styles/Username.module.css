@@ -8,6 +8,9 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
     @apply border-4 border-gray-50 shrink-0 h-[77%] w-[30%] rounded-3xl py-20 px-7 min-w-max;
 }
+input{
+    border: 1px solid lightblue;
+}
 .profile_img{
     @apply border-4 border-gray-100 w-[125px] h-[125px] rounded-full shadow-lg cursor-pointer;
     @apply hover:border-gray-200;

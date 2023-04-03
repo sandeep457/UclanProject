@@ -10,6 +10,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import TimeAgo from 'react-timeago';
 import axios from "axios";
+import useFetch from '../hooks/fetch.hook';
 import ReactHtmlParser from "html-react-parser";
 
 function LastSeenQuestion({ date }) {
@@ -32,6 +33,7 @@ function InquirePost({ post }) {
   const [like, setLike] = useState(false);
   const Close = <CloseIcon />;
   const username  =  localStorage.getItem("userName");
+  const [{ apiData }] = useFetch(`/user/${username}`);
   const handleQuill = (value) => {
     setAnswer(value);
   };
@@ -64,7 +66,7 @@ function InquirePost({ post }) {
   return (
     <div className="post">
       <div className="post__info">
-        <Avatar src={post?.user?.photo} />
+        <Avatar src={apiData?.profile} />
         <h4>{post?.user}</h4>
 
         <small>
