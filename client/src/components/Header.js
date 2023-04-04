@@ -178,7 +178,7 @@ export default function Header(props) {
               <button className="cancle" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button>
-              <button onClick={handleSubmit} type="submit" className="add">
+              <button onClick={handleSubmit} type="submit"  disabled={!question} className="add">
                 Add Question
               </button>
             </div>

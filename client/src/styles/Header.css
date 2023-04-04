@@ -220,7 +220,11 @@
   cursor: pointer;
   width: 20%;
 }
-
+.add:disabled{
+  background:  #fff;
+  color: #ccc;
+  cursor: no-drop;
+}
 .modal__buttons > .add:hover {
   background-color: #eee;
   color: #222;
