@@ -1,0 +1,6 @@
+export default {
+    JWT_SECRET : "Bvzbw5MIhMEqyEMS4kFgbJjU1YRyoDxNl4MDgFbu8Ao=",
+    EMAIL: "universityinquery@gmail.com",
+    PASSWORD : "qwompvzfuqnhchmn",
+    ATLAS_URI: "mongodb+srv://admin:admin@cluster0.faxasfp.mongodb.net/?retryWrites=true&w=majority"
+}
