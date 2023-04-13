@@ -10,8 +10,6 @@ import Recovery from './components/Recovery';
 import Reset from './components/Reset';
 import Profile from './components/Profile';
 import PageNotFound from './components/PageNotFound';
-
-
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
 import Dashboard from './components/Dashboard';
@@ -50,7 +48,7 @@ const router = createBrowserRouter([
         path : '*',
         element : <PageNotFound></PageNotFound>
     },
-])
+], { basename: "/UclanProject" })
 
 export default function App() {
   return (
