@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         path : '*',
         element : <PageNotFound></PageNotFound>
     },
-], { basename: "/UclanProject" })
+], { basename: "/" })
 
 export default function App() {
   return (
