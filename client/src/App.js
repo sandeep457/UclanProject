@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         path : '*',
         element : <PageNotFound></PageNotFound>
     },
-], { basename: "/" })
+],{ basename: ""})
 
 export default function App() {
   return (
