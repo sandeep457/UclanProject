@@ -163,6 +163,39 @@ export async function getAllQuestions(req,res){
       }
 }
 
+export async function getAllUsers(req,res){
+   
+    try {
+        UserModel.find()
+        .exec()
+        .then(users => {
+            const response = {
+                users: users.map(user => {
+
+                    return {
+                        name: user.username,
+                        role: user.role,
+                        email: user.email
+                    }
+
+                })
+
+            };
+            res.status(200).json(response);
+        }).catch(err => {
+        res.status(500).json({
+            success: false
+        })
+    })
+      } catch (e) {
+        res.status(500).send({
+          status: false,
+          message: "Unexpected error",
+          user: req.body.user
+        });
+      }
+}
+
 export async function question(req,res){
 
     try {
@@ -203,7 +236,8 @@ export async function answer(req,res){
             answer: req.body.answer,
             questionId: req.body.questionId,
             user: req.body.user,
-            createdAt: req.body.createdDate
+            createdAt: req.body.createdDate,
+            likes: 0
           })
           .then(() => {
             res.status(201).send({
@@ -286,6 +320,32 @@ export async function updateUser(req,res){
     } catch (error) {
         return res.status(401).send({ error });
     }
+}
+
+export async function updateAnswer(req,res){
+    try {
+        await AnswerModel
+          .updateOne({
+            user: req.body.user 
+          }, { $set: { likes: req.body.likes } })
+          .then(() => {
+            res.status(201).send({
+              status: true,
+              message: "like added successfully",
+            });
+          })
+          .catch((e) => {
+            res.status(400).send({
+              status: false,
+              message: "Bad request",
+            });
+          });
+      } catch (e) {
+        res.status(500).send({
+          status: false,
+          message: "Error while adding like",
+        });
+      }
 }
 
 /** GET: http://localhost:8080/api/generateOTP */

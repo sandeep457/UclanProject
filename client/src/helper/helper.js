@@ -77,6 +77,14 @@ export async function updateUser(response){
     }
 }
 
+export async function updateAnswer(response){
+    try {
+        const data = await axios.put('/api/updateAnswer', response, { headers : { "Content-Type": "application/json"}});
+        return Promise.resolve({ data })
+    } catch (error) {
+        return Promise.reject({ error : "Couldn't Update likes...!"})
+    }
+}
 /** generate OTP */
 export async function generateOTP(username){
     try {

@@ -7,7 +7,8 @@ const AnswerMongoDBSchema = new mongoose.Schema({
     ref: "questions",
   },
   createdAt: String,
-  user: Object,
+  likes: Number,
+  user: String,
 });
 
 export default mongoose.model.Answers || mongoose.model("Answers", AnswerMongoDBSchema);

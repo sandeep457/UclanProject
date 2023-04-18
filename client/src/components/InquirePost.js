@@ -1,12 +1,13 @@
 import { Avatar} from "@mui/material";
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import FavoriteBorderIcon  from '@mui/icons-material/FavoriteBorder';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/InquirePost.css";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import CloseIcon from '@mui/icons-material/Close';
 import ReactQuill from "react-quill";
+import { updateAnswer } from '../helper/helper';
 import "react-quill/dist/quill.snow.css";
 import TimeAgo from 'react-timeago';
 import axios from "axios";
@@ -30,13 +31,33 @@ function LastSeenAnswer({ date }) {
 function InquirePost({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
-  const [like, setLike] = useState(false);
+  const [like, setLikes] = useState(0);
   const Close = <CloseIcon />;
   const username  =  localStorage.getItem("userName");
   const [{ apiData }] = useFetch(`/user/${username}`);
   const handleQuill = (value) => {
     setAnswer(value);
   };
+  useEffect(() => {
+    if(post.allAnswers[0] && post.allAnswers[0].likes !== undefined){
+      setLikes(post.allAnswers[0].likes);
+    }
+  },[])
+  
+  const handleLikes = async (user) => {
+    const values = {
+      answer: post.allAnswers[0].answer,
+        questionId: post.allAnswers[0].questionId,
+        user: post.allAnswers[0].user,
+        createdAt: post.allAnswers[0].createdAt,
+        likes: post.allAnswers[0].likes + 1
+        };
+     updateAnswer(values).then(()=>{
+      post.allAnswers[0].likes+=1;
+      setLikes(like + 1);
+
+     });
+  }
   const handleSubmit = async () => {
     if (post?._id && answer !== "") {
       const config = {
@@ -48,7 +69,8 @@ function InquirePost({ post }) {
         answer: answer,
         questionId: post?._id,
         user: username,
-        createdDate: new Date()
+        createdDate: new Date(),
+        likes: 0
       };
       await axios
         .post("/api/answer", body, config)
@@ -177,10 +199,10 @@ function InquirePost({ post }) {
                     <LastSeenAnswer date={_a?.createdAt} />
                   </span>
                 </div>
-                <span title='Like' style={{cursor:'pointer',padding:'0px 15px'}}>
-                  <FavoriteBorderIcon onClick={() => {
-              setLike(true);
-            }}/></span>
+                <span title='Like' style={{cursor:'pointer',padding:'0px 5px 0px 15px'}}>
+                  <FavoriteBorderIcon color="primary" id="like" onClick={() => {
+              handleLikes(_a.user);
+            }}/></span> {like} Likes
               </div>
               <div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
             </div></div>

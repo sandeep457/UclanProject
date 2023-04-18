@@ -16,6 +16,7 @@ router.route('/question').post(controller.question);
 router.route('/answer').post(controller.answer);
 
 /** GET Methods */
+router.route('/getAllUsers').get(controller.getAllUsers)
 router.route('/user/:username').get(controller.getUser) // user with username
 router.route('/generateOTP').get(controller.verifyUser, localVariables, controller.generateOTP) // generate random OTP
 router.route('/generateSignupOTP').get(localVariables, controller.generateOTP)
@@ -27,6 +28,7 @@ router.route('/getAllQuestions').get(controller.getAllQuestions)
 
 /** PUT Methods */
 router.route('/updateuser').put(Auth, controller.updateUser); // is use to update the user profile
+router.route('/updateAnswer').put(controller.updateAnswer); 
 router.route('/resetPassword').put(controller.verifyUser, controller.resetPassword); // use to reset password
 
 
