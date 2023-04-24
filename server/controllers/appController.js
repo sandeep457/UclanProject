@@ -326,11 +326,12 @@ export async function updateAnswer(req,res){
     try {
         await AnswerModel
           .updateOne({
-            user: req.body.user 
+            _id: req.body._id 
           }, { $set: { likes: req.body.likes } })
           .then(() => {
             res.status(201).send({
               status: true,
+              answer: req.body,
               message: "like added successfully",
             });
           })

@@ -20,7 +20,14 @@ const port = 8080;
 app.get('/', (req, res) => {
     res.status(201).json("Home GET Request");
 });
-
+app.get("/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "dist/index.html"), function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    });
+  });
+  
 
 /** api routes */
 app.use('/api', router)

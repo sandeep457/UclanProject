@@ -44,18 +44,10 @@ function InquirePost({ post }) {
     }
   },[])
   
-  const handleLikes = async (user) => {
-    const values = {
-      answer: post.allAnswers[0].answer,
-        questionId: post.allAnswers[0].questionId,
-        user: post.allAnswers[0].user,
-        createdAt: post.allAnswers[0].createdAt,
-        likes: post.allAnswers[0].likes + 1
-        };
-     updateAnswer(values).then(()=>{
-      post.allAnswers[0].likes+=1;
-      setLikes(like + 1);
-
+  const handleLikes = async (val) => {
+     val.likes+=1;
+     updateAnswer(val).then((res)=>{
+     setLikes(res.data.data.answer.likes);
      });
   }
   const handleSubmit = async () => {
@@ -200,8 +192,8 @@ function InquirePost({ post }) {
                   </span>
                 </div>
                 <span title='Like' style={{cursor:'pointer',padding:'0px 5px 0px 15px'}}>
-                  <FavoriteBorderIcon color="primary" id="like" onClick={() => {
-              handleLikes(_a.user);
+                  <FavoriteBorderIcon sx={{ color: "red" }}id="like" onClick={() => {
+              handleLikes(_a);
             }}/></span> {like} Likes
               </div>
               <div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
